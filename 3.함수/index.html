@@ -5,19 +5,34 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>D-day</title>
     <script>
+
+
+
         const dateFormMaker = function () {
             const inputYear = document.querySelector('#target-year-input').value();
             const inputMonth = document.querySelector('#target-month-input').value();
             const inputDate = document.querySelector('#target-date-input').value();
-            const dateFormat = inputYear  + inputMonth + '-' + inputDate;
-            console.log(inputYear , inputMonth , inputDate);
+            const dateFormat = `${inputYear} - ${inputMonth} - ${inputDate}`;
+            return dateFormat;
+            // console.log(inputYear , inputMonth , inputDate);
         }
         const countMaker = function () {
             const nowDate = new Date();
             const targetDate = new Date('2023-12-25');
             const remaining = (targetDate - nowDate) / 1000;
+            //remaining이 0이라면, 타이머가 종료되었습니다 출력
+            if(remaining <= 0){
+                console.log("타이머가 종료되었습니다.");
+            }else if(isNaN(remaining)){
+                // 만약 잘못된 날짜가 들어왔다면, 유효한 시간대가 아닙니다 출력
+                // NaN일경우 체크할때는 isNaN을 사용
+                console.log("유효한 시간대가 아닙니다.")
+            }
+
+
+
             const remainingDate = Math.floor(remaining / 3600 / 24);
             const remainingHours = Math.floor(remaining / 3600) % 24;
             const remainingMin = Math.floor(remaining / 60) % 60;
@@ -28,18 +43,41 @@
 
 
         // 함수의 종료
+        /*
         const sum = function () {
           let amount = 10+10;
           return amount;
           console.log("함수종료됨"); // 실행안됨.
         };
         sum();
+         */
     </script>
 </head>
 <body>
-<input type="text" id="target-year-input" class="target-input">
-<input type="text" id="target-month-input" class="target-input">
-<input type="text" id="target-date-input" class="target-input">
+<h1>D-day</h1>
+<div id="d-day-container">
+    <div class="d-day-child-container">
+        <span id="day">0</span>
+        <span>일</span>
+    </div>
+    <div class="d-day-child-container">
+        <span id="hours">0시간</span>
+        <span></span>
+    </div>
+    <div class="d-day-child-container">
+        <span id="min">0</span>
+        <span>분</span>
+    </div>
+    <div class="d-day-child-container">
+        <span id="sec">0</span>
+        <span>초</span>
+    </div>
+</div>
+<div id="target-selector">
+    <input type="text" id="target-year-input" class="target-input"> -
+    <input type="text" id="target-month-input" class="target-input"> -
+    <input type="text" id="target-date-input" class="target-input">
+</div>
 <button onclick="countMaker()">버튼</button>
 </body>
 </html>
