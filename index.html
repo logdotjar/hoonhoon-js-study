@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D-day</title>
+    <script src="index.js" defer></script>
+</head>
+<body>
+<h1>D-day</h1>
+<div id="d-day-container">
+    <div class="d-day-child-container">
+        <span id="day">0</span>
+        <span>일</span>
+    </div>
+    <div class="d-day-child-container">
+        <span id="hours">0시간</span>
+        <span></span>
+    </div>
+    <div class="d-day-child-container">
+        <span id="min">0</span>
+        <span>분</span>
+    </div>
+    <div class="d-day-child-container">
+        <span id="sec">0</span>
+        <span>초</span>
+    </div>
+</div>
+<div id="d-day-message"></div>
+<div id="target-selector">
+    <input type="text" id="target-year-input" class="target-input"> -
+    <input type="text" id="target-month-input" class="target-input"> -
+    <input type="text" id="target-date-input" class="target-input">
+</div>
+<button onclick="starter()" class="btn">카운트 다운 시작</button>
+<button onclick="setClearInterval()" class="btn">타이머 초기화</button>
+</body>
+</html>
