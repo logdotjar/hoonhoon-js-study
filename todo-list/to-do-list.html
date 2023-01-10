@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo list</title>
+    <link rel="stylesheet" href="to-do-list.css">
+    <script src="to-do-list.js" defer></script>
+</head>
+<body>
+    <h1>ToDo</h1>
+    <div class="todo-container">
+        <!-- 키보드가 입력될때마다 코드가 실행되도록 onkeydown 사용 -->
+        <input type="text" id="todo-input" onkeydown="keyCodeCheck()">
+        <ul id="todo-list"></ul>
+    </div>
+</body>
+</html>
