@@ -5,11 +5,7 @@ const todoList = document.querySelector("#todo-list");
 // JSON.parse = 문자열데이터를 원본데이터 형태로 바꿔줌
 const savedTodoList = JSON.parse(localStorage.getItem('saved-items'));
 
-if(savedTodoList){
-    for(let i = 0; i < savedTodoList.length; i++){
-        createTodo(savedTodoList[i]);
-    }
-}
+
 
 const createTodo = function (storageData) {
     let todoContents = todoInput.value;
@@ -30,6 +26,22 @@ const createTodo = function (storageData) {
     newLi.addEventListener("dblclick",()=>{
         newLi.remove();
     });
+
+    // 새로고침하더라도 컴플리트 리스트가 유지되어야함
+    //true로 떨어지기때문에 if문 실행
+    // storageData.complete ==> undefined으로 떨어짐 -> optional chaining사용한다.
+    //optional chaining은 객체가 undefined이거나 다른 값인경우에는 complete를 찾지않는다.
+    if(storageData?.complete){ //optional chaining
+        newLi.classList.add("complete");
+    }
+
+    // or optional chaining이 없을 경우 로직
+    /*
+    if(storageData && storageData.complete){
+        newLi.classList.add("complete");
+    }
+   */
+
 
     newSpan.textContent = todoContents;
     newLi.appendChild(newBtn);
@@ -55,6 +67,7 @@ const deleteAll = function () {
     for(let i = 0; i < liList.length; i++){
         liList[i].remove();
     }
+    saveItemsFn();
 }
 
 const saveItemsFn = function () {
@@ -71,5 +84,28 @@ const saveItemsFn = function () {
     //객체나 배열 자체를 문자열로 변환해줄 수 있는 JSON 데이터 포맷 사용하기
     console.log(typeof  JSON.stringify(saveItems));
 
-    localStorage.setItem('save-items',JSON.stringify(saveItems));
+
+    /*
+    // 이코드 개선 -> 삼항연산자
+    if(saveItems.length === 0){
+        // 아이템이 없는 경우
+        localStorage.removeItem('saved-items');
+    } else{
+        // 정상적으로 데이터가 담겼을때
+        localStorage.setItem('save-items',JSON.stringify(saveItems));
+    }
+     */
+
+    //위 조건을 삼항연산자로 로직 줄임
+    saveItems.length === 0 ? localStorage.removeItem('saved-items') : localStorage.setItem('save-items',JSON.stringify(saveItems));
+
+
+
+}
+
+// 호이스팅 문제로 맨 하위로 선언
+if(savedTodoList){
+    for(let i = 0; i < savedTodoList.length; i++){
+        createTodo(savedTodoList[i]);
+    }
 }
