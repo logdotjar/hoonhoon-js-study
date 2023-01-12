@@ -109,3 +109,35 @@ if(savedTodoList){
         createTodo(savedTodoList[i]);
     }
 }
+//api Key 함수 - url활용해서 요청 (fetch)
+const weatherSearch = function (position) {
+   const openWeatherRes = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=2834387742b25d5393a21e88fee8246a`).then((res)=>{
+       // 응답 바디만 존재할때 사용(응답헤더 존재하면 못씀) : JSON.parse();
+       //응답객체를 JSON객체로 확인 가능
+
+       //헤더,바디 존재할때 JSON데이터 받아오고자할때 .json()사용
+       return res.json();
+   }).catch((err)=>{
+       //catch : 요청이 제대로 이루어지지않은 원인이무엇인지
+       console.log(err);
+   })
+
+    console.log(openWeatherRes)
+}
+//위치정보 접근 가능할때 callback 함수
+const accessToGeo = function (position) {
+    const positionObj = {
+        latitude:position.coords.latitude,
+        longitude:position.coords.longitude
+    }
+    weatherSearch(positionObj);
+
+}
+// 현재위치 가져오기
+const askForLocation = function () {
+    navigator.geolocation.getCurrentPosition(accessToGeo,(err)=>{
+        console.log(err);
+    })
+}
+askForLocation();
+
