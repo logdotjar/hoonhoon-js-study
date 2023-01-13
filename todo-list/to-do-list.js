@@ -1,6 +1,7 @@
 //전역 스코프로 존재하는 변수
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
+const savedWeatherData = JSON.parse(localStorage.getItem('saved-weather'));
 
 // JSON.parse = 문자열데이터를 원본데이터 형태로 바꿔줌
 const savedTodoList = JSON.parse(localStorage.getItem('saved-items'));
@@ -112,8 +113,21 @@ if(savedTodoList){
 
 //todo의 텍스트를 지역명으로 바꾸기~
 const weatherDataActive = function ({ location,weather }) {
+    const weatherMainList = [
+        'clear',
+        'clouds',
+        'drizzle',
+        'snow',
+        'sunset'
+    ];
+    weather = weatherMainList.includes(weather) ? weather : 'fog'
     const locationNameTag = document.querySelector('#location-name-tag');
     locationNameTag.textContent = location;
+    document.body.style.backgroundImage = `url("./images/${weather}.jpg")`
+    if(!savedWeatherData || savedWeatherData.location !== location || savedWeatherData.weather !== weather ){
+        localStorage.setItem('saved-weather', JSON.stringify({ location, weather }));
+    }
+
 }
 
 //api Key 함수 - url활용해서 요청 (fetch)
@@ -157,4 +171,6 @@ const askForLocation = function () {
     })
 }
 askForLocation();
-
+if(savedWeatherData) {
+    weatherDataActive(savedWeatherData);
+}

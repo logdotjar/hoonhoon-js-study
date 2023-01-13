@@ -2,12 +2,21 @@
     box-sizing: border-box;
 }
 body{
-    background-color:#fff;
+    background-image:url("./images/clear.jpg");
+    background-size:cover;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
     min-height: 100vh;
+}
+h1{
+    color:white;
+    text-shadow: 2px 2px grey;
+    opacity:0.8;
+}
+input{
+    opacity:0.8;
 }
 .todo-container{
     width: 400px;
@@ -57,7 +66,15 @@ li button:active{
 }
 .delete-btn-wrapper button{
     padding: 0.2rem 1rem;
+    border:none;
+    border-radius: 5px;
+    box-shadow: 3px 3px grey;
     font-weight: bold;
     background-color:antiquewhite;
     cursor: pointer;
+}
+.delete-btn-wrapper button:active{
+    box-shadow: none;
+    margin-left: 3px;
+    margin-top: 3px;
 }
