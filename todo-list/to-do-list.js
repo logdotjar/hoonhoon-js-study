@@ -55,7 +55,7 @@ const createTodo = function (storageData) {
 
 const keyCodeCheck = function () {
     //input박스에 값을 입력하고 enter누르면 값이 입력되도록 keyKode : 13을 입력했을 때 이벤트 실
-    if(window.event.keyCode === 13 && todoInput.value !== ""){
+    if(window.event.keyCode === 13 && todoInput.value.trim() !== ""){
         createTodo();
     }
 };
@@ -109,26 +109,43 @@ if(savedTodoList){
         createTodo(savedTodoList[i]);
     }
 }
+
+//todo의 텍스트를 지역명으로 바꾸기~
+const weatherDataActive = function ({ location,weather }) {
+    const locationNameTag = document.querySelector('#location-name-tag');
+    locationNameTag.textContent = location;
+}
+
 //api Key 함수 - url활용해서 요청 (fetch)
-const weatherSearch = function (position) {
-   const openWeatherRes = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.latitude}&lon=${position.longitude}&appid=2834387742b25d5393a21e88fee8246a`).then((res)=>{
+const weatherSearch = function ({ latitude , longitude }) {
+   const openWeatherRes = fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=2834387742b25d5393a21e88fee8246a`).then((res)=>{
        // 응답 바디만 존재할때 사용(응답헤더 존재하면 못씀) : JSON.parse();
        //응답객체를 JSON객체로 확인 가능
 
        //헤더,바디 존재할때 JSON데이터 받아오고자할때 .json()사용
        return res.json();
+   }).then((json)=>{
+       // console.log(json.name,json.weather[0].main);
+       const weatherData = {
+           location:json.name,
+           weather: json.weather[0].main
+       }
+       weatherDataActive(weatherData);
    }).catch((err)=>{
        //catch : 요청이 제대로 이루어지지않은 원인이무엇인지
        console.log(err);
    })
 
-    console.log(openWeatherRes)
+    // console.log(openWeatherRes)
 }
 //위치정보 접근 가능할때 callback 함수
-const accessToGeo = function (position) {
+//받아오는 데이터정보 coords 에서 바로 뽑아올수있게 구조분해할당을 하도록 parameter에 coords
+const accessToGeo = function ({ coords }) {
+    const { latitude, longitude } = coords
+    // 객체 key-value 이름이 같으면 콜론 생략가능 -> short hand property
     const positionObj = {
-        latitude:position.coords.latitude,
-        longitude:position.coords.longitude
+        latitude,
+        longitude
     }
     weatherSearch(positionObj);
 
